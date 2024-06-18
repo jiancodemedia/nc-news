@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import getArticles from "../services/getArticles";
 import "./ArticlesPage.css";
+import { Link } from "react-router-dom";
 
 function ArticlesPage() {
   const [articles, setArticles] = useState([]);
@@ -44,9 +45,7 @@ function ArticlesPage() {
             </tr>
           </thead>
           <Articles
-            articles={articles.filter((article) =>
-              article.author.includes(filter)
-            )}
+            articles={articles} filter={filter}
           />
         </table>
       </div>
@@ -54,14 +53,17 @@ function ArticlesPage() {
   );
 }
 
-function Articles({ articles }) {
+function Articles({ articles, filter }) {
+  const filteredArticles = articles.filter((article) =>
+    article.title.includes(filter) )
+
   return (
     <tbody>
-      {articles.map((article) => (
+      {filteredArticles.map((article) => (
         <tr key={article.article_id}>
-          <td>{article.title}</td>
+          <td><Link to={`/article/${article.article_id}`}>{article.title}</Link></td>
           <td>
-            <img src={article.article_img_url} />
+            <img src={article.article_img_url} alt={article.title}/>
           </td>
         </tr>
       ))}
