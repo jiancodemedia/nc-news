@@ -39,11 +39,7 @@ function ArticlesPage() {
         <table>
           <thead>
             <tr>
-              <th>Author</th>
               <th>Title</th>
-              <th>Topic</th>
-              <th>Created At</th>
-              <th>Votes</th>
               <th>Image</th>
             </tr>
           </thead>
@@ -63,11 +59,7 @@ function Articles({ articles }) {
     <tbody>
       {articles.map((article) => (
         <tr key={article.article_id}>
-          <td>{article.author}</td>
           <td>{article.title}</td>
-          <td>{article.topic}</td>
-          <td>{article.created_at}</td>
-          <td>{article.votes}</td>
           <td>
             <img src={article.article_img_url} />
           </td>

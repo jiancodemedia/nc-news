@@ -3,7 +3,7 @@ import {
   NavLink,
   Outlet,
   RouterProvider,
-  createBrowserRouter
+  createBrowserRouter,
 } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import UsersPage from "./pages/UsersPage";
@@ -37,33 +37,22 @@ function Layout() {
   );
 }
 
-const routersConfig = [
+const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: "users",
-        element: <UsersPage />,
-      },
-      {
-        path: "topics",
-        element: <TopicsPage />,
-      },
-      {
-        path: "articles",
-        element: <ArticlesPage />,
-      },
+      { path: "/", element: <HomePage /> },
+      { path: "users", element: <UsersPage /> },
+      { path: "topics", element: <TopicsPage /> },
+      { path: "articles", element: <ArticlesPage /> },
     ],
   },
-];
+]);
 
-const router = createBrowserRouter(routersConfig);
-
-export default function App() {
-  return <RouterProvider router={router} />;
+function App() {
+  return (
+  <RouterProvider router={router} />
+) ;
 }
+export default App;
