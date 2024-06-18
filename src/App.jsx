@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage";
 import UsersPage from "./pages/UsersPage";
 import TopicsPage from "./pages/TopicsPage";
 import ArticlesPage from "./pages/ArticlesPage";
+import ArticleDetailPage from "./pages/ArticleDetailPage";
 
 function Layout() {
   return (
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
       { path: "users", element: <UsersPage /> },
       { path: "topics", element: <TopicsPage /> },
       { path: "articles", element: <ArticlesPage /> },
+      { path: 'articles/:articleId', element: <ArticleDetailPage/>},
     ],
   },
 ]);
