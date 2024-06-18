@@ -1,0 +1,33 @@
+.articles {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  row-gap: 5px;
+
+  .list {
+    overflow: auto;
+    display: grid;
+  }
+
+  .search {
+    align-self: center;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 80%;
+    text-align-last: center;
+    justify-self: center;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  img {
+    width: 50px;
+  }
+}

@@ -1,1 +1,10 @@
+body {
+  height: 100svh;
+  margin: 0;
+}
 
+#root {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}

@@ -1,0 +1,40 @@
+nav {
+  height: 50px;
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    display: flex;
+    justify-content: center;
+  }
+
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+  li a:hover:not(.active) {
+    background-color: #111;
+  }
+
+  .active {
+    background-color: #ffa600;
+  }
+}
+
+.title {
+  text-align: center;
+}
+
+.outlet {
+  padding: 5px;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  overflow: hidden;
+}
