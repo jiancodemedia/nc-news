@@ -1,0 +1,14 @@
+.article-detail {
+    display: flex;
+    flex-flow: column;
+    
+    border: 8px solid;
+  
+    }
+  
+
+    img {
+      width: 500px;
+    }
+  
+    

@@ -33,7 +33,7 @@ function ArticlesPage() {
       <div className="search">
         <form onSubmit={onClick}>
           <input type="text" id="search" value={search} onChange={onChange} />
-          <button type="submit">Submit</button>
+          <button type="submit" >Submit</button>
         </form>
       </div>
       <div className="list">
@@ -55,13 +55,13 @@ function ArticlesPage() {
 
 function Articles({ articles, filter }) {
   const filteredArticles = articles.filter((article) =>
-    article.title.includes(filter) )
+    article.title.toLowerCase().includes(filter.toLowerCase()) )
 
   return (
     <tbody>
       {filteredArticles.map((article) => (
         <tr key={article.article_id}>
-          <td><Link to={`/article/${article.article_id}`}>{article.title}</Link></td>
+          <td><Link to={`/articles/${article.article_id}`}>{article.title}</Link></td>
           <td>
             <img src={article.article_img_url} alt={article.title}/>
           </td>
