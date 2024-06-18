@@ -1,6 +1,6 @@
 import axios from "axios";
 
-function getArticlesById() {
+function getArticlesById(id) {
   const URL = `https://jian-nc-news.onrender.com/api/articles/${id}`;
   const ArticlesId = axios.get(URL);
   return ArticlesId;
