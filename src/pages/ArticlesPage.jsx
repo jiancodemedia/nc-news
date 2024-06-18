@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import getArticles from "../services/getArticles";
 import "./ArticlesPage.css";
 import { Link } from "react-router-dom";
@@ -33,7 +33,7 @@ function ArticlesPage() {
       <div className="search">
         <form onSubmit={onClick}>
           <input type="text" id="search" value={search} onChange={onChange} />
-          <input type="button" value="Submit" />
+          <button type="submit">Submit</button>
         </form>
       </div>
       <div className="list">
