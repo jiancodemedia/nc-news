@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import getArticlesById from "../services/getArticlesById";
 import CommentBox from "../components/Comments";
-import getCommentsByArticlesId from "../services/getCommentsByArticleId";
+import getCommentsByArticleId from "../services/getCommentsByArticleId";
 import "./ArticleDetailPage.css";
 import updateArticleVotes from "../services/patchVotes"
 import postCommentToArticle from "../services/postComment"
@@ -31,7 +31,7 @@ function ArticleDetailPage() {
         setArticleLoading(false);
     })
     
-    getCommentsByArticlesId(articleId).then((response) => {
+    getCommentsByArticleId(articleId).then((response) => {
       setComments(response.data.comments)
     })
     .finally(() => {
@@ -50,13 +50,13 @@ function ArticleDetailPage() {
   }
 
   function handleSubmitComment (event) {
-    event.preventDefault()
-     
+    event.preventDefault();
+    
     setPostingComment(true)
 
     postCommentToArticle(articleId, newComment)
     .then((response) => {
-        setComments((prevComments) => [response.data.comment, ...comments])
+        setComments((prevComments) => [response.data.comment, ...prevComments])
         setNewComment('')
     })
     .finally(() => {
