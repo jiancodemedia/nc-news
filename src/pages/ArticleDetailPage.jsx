@@ -5,6 +5,8 @@ import CommentBox from "../components/Comments";
 import getCommentsByArticlesId from "../services/getCommentsByArticleId";
 import "./ArticleDetailPage.css";
 import updateArticleVotes from "../services/patchVotes"
+import postCommentToArticle from "../services/postComment"
+
 
 function ArticleDetailPage() {
   const { articleId } = useParams();
@@ -12,6 +14,8 @@ function ArticleDetailPage() {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [votes, setVotes] = useState(0);
+  const [newComment, setNewComment] = useState('')
+  const [postingComment, setPostingComment] = useState(false)
 
 
   useEffect(() => {
@@ -35,8 +39,25 @@ function ArticleDetailPage() {
     setVotes(updatedVotes);
     updateArticleVotes(articleId, change)
     setLoading(false)
-    
   }
+
+  function handleCommentChange (event) {
+    setNewComment(event.target.value)
+  }
+
+  function handleSubmitComment (event) {
+    event.preventDefault()
+    }
+    setPostingComment(true)
+
+    postCommentToArticle(articleId, newComment)
+    .then((response) => {
+        setComments([...comments, response.data.comment])
+        setNewComment('')
+        setPostingComment(false)
+
+
+    })
 
   if (loading) return <h1>Loading...</h1>;
   if (!article) return <h1>Article not found</h1>;
@@ -54,6 +75,18 @@ function ArticleDetailPage() {
       </div>
       <p>{article.body}</p>
       <img src={article.article_img_url} alt={article.title} />
+
+        <form onSubmit={handleSubmitComment}>
+            <textarea
+            value = {newComment}
+            onChange={handleCommentChange}
+            placeholder="Write your comment here"
+            />
+            <br />
+            <button type='submit'>
+                {postingComment ? 'Posting...' : 'Post Comment'}
+            </button>
+        </form>
 
       <div className="comment-box">
         <h3>Comments</h3>
