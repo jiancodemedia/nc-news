@@ -8,7 +8,7 @@ import updateArticleVotes from "../services/patchVotes"
 
 function ArticleDetailPage() {
   const { articleId } = useParams();
-  const [article, setArticles] = useState(null);
+  const [article, setArticle] = useState(null);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [votes, setVotes] = useState(0);
@@ -18,26 +18,28 @@ function ArticleDetailPage() {
     setLoading(true);
 
     getArticlesById(articleId).then((response) => {
-      setArticles(response.data.article);
+      setArticle(response.data.article);
       setVotes(response.data.article.votes);
       setLoading(false);
     });
+    
     getCommentsByArticlesId(articleId).then((response) => {
       setComments(response.data.comments);
+      setLoading(false)
       
     });
   }, [articleId]);
 
   function handleVote(change) {
-    const updateVotes = votes + change;
-    setVotes(updateVotes);
+    const updatedVotes = votes + change;
+    setVotes(updatedVotes);
     updateArticleVotes(articleId, change)
-    
+    setLoading(false)
     
   }
 
   if (loading) return <h1>Loading...</h1>;
-  if (!article) return <h1>Article no found</h1>;
+  if (!article) return <h1>Article not found</h1>;
 
   return (
     <div className="article-detail">
@@ -46,8 +48,8 @@ function ArticleDetailPage() {
       <p> <b>Topic:</b> {article.topic} </p>
       <p> <b>Created at:</b> {article.created_at} </p>
       <div>
-        <p> <b>Votes:</b> {article.votes} </p>
-        <button onClick={() => handleVote(1)}>UpVote</button>
+        <p> <b>Votes:</b> {votes} </p>
+        <button onClick={() => handleVote(+1)}>UpVote</button>
         <button onClick={() => handleVote(-1)}>DownVote</button>
       </div>
       <p>{article.body}</p>
