@@ -27,12 +27,20 @@ function ArticleDetailPage() {
       setArticle(response.data.article);
       setVotes(response.data.article.votes);
     })
+    .catch((error) => {
+        console.error('No article', error);
+        setArticle(null)
+    })
     .finally(() => {
         setArticleLoading(false);
     })
     
     getCommentsByArticleId(articleId).then((response) => {
       setComments(response.data.comments)
+    })
+    .catch((error) => {
+        console.error('No comments', error);
+        setComments([])
     })
     .finally(() => {
         setCommentsLoading(false)
@@ -52,12 +60,21 @@ function ArticleDetailPage() {
   function handleSubmitComment (event) {
     event.preventDefault();
     
+if(!newComment.trim()) {
+    return
+}
+
     setPostingComment(true)
 
     postCommentToArticle(articleId, newComment)
     .then((response) => {
         setComments((prevComments) => [response.data.comment, ...prevComments])
+
         setNewComment('')
+    })
+    .catch((error) => {
+        console.error('Error posting comment', error);
+        setArticle(null)
     })
     .finally(() => {
         setPostingComment(false)
