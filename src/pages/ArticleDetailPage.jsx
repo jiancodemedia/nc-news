@@ -12,33 +12,37 @@ function ArticleDetailPage() {
   const { articleId } = useParams();
   const [article, setArticle] = useState(null);
   const [comments, setComments] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [articleLoading, setArticleLoading] = useState(false);
   const [votes, setVotes] = useState(0);
   const [newComment, setNewComment] = useState('')
   const [postingComment, setPostingComment] = useState(false)
+  const [commentsLoading, setCommentsLoading] = useState(false)
 
 
   useEffect(() => {
-    setLoading(true);
+    setArticleLoading(true);
+    setCommentsLoading(true)
 
     getArticlesById(articleId).then((response) => {
       setArticle(response.data.article);
       setVotes(response.data.article.votes);
-      setLoading(false);
-    });
+    })
+    .finally(() => {
+        setArticleLoading(false);
+    })
     
     getCommentsByArticlesId(articleId).then((response) => {
-      setComments(response.data.comments);
-      setLoading(false)
-      
-    });
+      setComments(response.data.comments)
+    })
+    .finally(() => {
+        setCommentsLoading(false)
+      })
   }, [articleId]);
 
   function handleVote(change) {
     const updatedVotes = votes + change;
     setVotes(updatedVotes);
     updateArticleVotes(articleId, change)
-    setLoading(false)
   }
 
   function handleCommentChange (event) {
@@ -47,19 +51,21 @@ function ArticleDetailPage() {
 
   function handleSubmitComment (event) {
     event.preventDefault()
+    return
     }
+    
     setPostingComment(true)
 
     postCommentToArticle(articleId, newComment)
     .then((response) => {
         setComments([...comments, response.data.comment])
         setNewComment('')
-        setPostingComment(false)
-
-
     })
+    .finally(() => {
+        setPostingComment(false)
+      })
 
-  if (loading) return <h1>Loading...</h1>;
+  if (articleLoading) return <h1>Loading...</h1>;
   if (!article) return <h1>Article not found</h1>;
 
   return (
@@ -81,17 +87,22 @@ function ArticleDetailPage() {
             value = {newComment}
             onChange={handleCommentChange}
             placeholder="Write your comment here"
+            rows='4'
+            cols='50'
+            disabled={postingComment}
             />
             <br />
-            <button type='submit'>
+            <button type='submit' disabled={postingComment}>
                 {postingComment ? 'Posting...' : 'Post Comment'}
             </button>
         </form>
 
       <div className="comment-box">
         <h3>Comments</h3>
-        {comments ? (
-          comments.map((comment) => (
+        {commentsLoading ? ( 
+            <p>Loading comments...</p>
+        ) : comments ? (
+            comments.map((comment) => (
             <CommentBox key={comment.comment_id} comment={comment} />
           ))
         ) : (
