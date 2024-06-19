@@ -33,7 +33,7 @@ function ArticlesPage() {
       <div className="search">
         <form onSubmit={onClick}>
           <input type="text" id="search" value={search} onChange={onChange} />
-          <button type="submit" >Submit</button>
+          <button type="submit" >Search</button>
         </form>
       </div>
       <div className="list">

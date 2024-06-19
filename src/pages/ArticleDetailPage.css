@@ -1,8 +1,10 @@
 .article-detail {
     display: flex;
     flex-flow: column;
-    
     border: 8px solid;
+    overflow: auto;
+    display: grid;
+    padding: 5px;
   
     }
   
@@ -11,4 +13,19 @@
       width: 500px;
     }
   
-    
+    .comment-box {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        background-color: #767575;
+    }
+
+    .comment {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+
+    }
