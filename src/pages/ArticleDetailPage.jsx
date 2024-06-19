@@ -51,19 +51,18 @@ function ArticleDetailPage() {
 
   function handleSubmitComment (event) {
     event.preventDefault()
-    return
-    }
-    
+     
     setPostingComment(true)
 
     postCommentToArticle(articleId, newComment)
     .then((response) => {
-        setComments([...comments, response.data.comment])
+        setComments((prevComments) => [response.data.comment, ...comments])
         setNewComment('')
     })
     .finally(() => {
         setPostingComment(false)
       })
+    }
 
   if (articleLoading) return <h1>Loading...</h1>;
   if (!article) return <h1>Article not found</h1>;
@@ -101,7 +100,7 @@ function ArticleDetailPage() {
         <h3>Comments</h3>
         {commentsLoading ? ( 
             <p>Loading comments...</p>
-        ) : comments ? (
+        ) : comments.length > 0 ? (
             comments.map((comment) => (
             <CommentBox key={comment.comment_id} comment={comment} />
           ))
