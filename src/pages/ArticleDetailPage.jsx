@@ -34,7 +34,7 @@ function ArticleDetailPage() {
       })
       .catch((error) => {
         console.error("No article found", error);
-        setError("Fail to load");
+        alert("Fail to load");
       })
       .finally(() => {
         setArticleLoading(false);
@@ -46,7 +46,7 @@ function ArticleDetailPage() {
       })
       .catch((error) => {
         console.error("No comments found", error);
-        setError("Fail to load");
+        alert("Fail to load");
       })
       .finally(() => {
         setCommentsLoading(false);
@@ -57,8 +57,8 @@ function ArticleDetailPage() {
     const updatedVotes = votes + change;
     setVotes(updatedVotes);
     patchArticleVotes(articleId, change)
-    .catch((error) => {
-        console.error("Error updating votes", error);
+    .catch(() => {
+        
         setVotes(votes)
       })
   }
@@ -73,6 +73,7 @@ function ArticleDetailPage() {
     const comment = newComment.trim();
 
     if (!comment) {
+        alert('Cannot post empty comment')
       return;
     }
 
@@ -85,7 +86,7 @@ function ArticleDetailPage() {
       })
       .catch((error) => {
         console.error("Error posting comment", error);
-        setError("Fail to post");
+        alert("Fail to post");
       })
       .finally(() => {
         setPostingComment(false);
@@ -93,9 +94,10 @@ function ArticleDetailPage() {
   }
 
   function handleDeleteComment(commentId) {
+    console.log(commentId)
     setDeleteComment(commentId);
 
-    deleteCommentById(articleId, commentId)
+    deleteCommentById( commentId)
       .then(() => {
         setComments((prevComments) =>
           prevComments.filter((comment) => comment.comment_id !== commentId)
@@ -103,7 +105,7 @@ function ArticleDetailPage() {
       })
       .catch((error) => {
         console.log( error);
-        setError("Fail to delete");
+    
       })
       .finally(() => {
         setDeleteComment(null);
