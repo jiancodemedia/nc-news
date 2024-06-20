@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import getArticles from "../services/getArticles";
+import { getArticles } from "../services/articlesApi";
 import "./ArticlesPage.css";
 import { Link } from "react-router-dom";
 
@@ -33,7 +33,7 @@ function ArticlesPage() {
       <div className="search">
         <form onSubmit={onClick}>
           <input type="text" id="search" value={search} onChange={onChange} />
-          <button type="submit" >Search</button>
+          <button type="submit">Search</button>
         </form>
       </div>
       <div className="list">
@@ -44,9 +44,7 @@ function ArticlesPage() {
               <th>Image</th>
             </tr>
           </thead>
-          <Articles
-            articles={articles} filter={filter}
-          />
+          <Articles articles={articles} filter={filter} />
         </table>
       </div>
     </div>
@@ -55,15 +53,18 @@ function ArticlesPage() {
 
 function Articles({ articles, filter }) {
   const filteredArticles = articles.filter((article) =>
-    article.title.toLowerCase().includes(filter.toLowerCase()) )
+    article.title.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <tbody>
       {filteredArticles.map((article) => (
         <tr key={article.article_id}>
-          <td><Link to={`/articles/${article.article_id}`}>{article.title}</Link></td>
           <td>
-            <img src={article.article_img_url} alt={article.title}/>
+            <Link to={`/articles/${article.article_id}`}>{article.title}</Link>
+          </td>
+          <td>
+            <img src={article.article_img_url} alt={article.title} />
           </td>
         </tr>
       ))}
