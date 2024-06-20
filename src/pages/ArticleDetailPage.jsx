@@ -157,7 +157,7 @@ function ArticleDetailPage() {
               <CommentBox comment={comment} />
               {comment.user_id === currentUser && (
                 <button onClick={() => handleDeleteComment(comment.comment_id)}>
-                  {deleteCommentById === comment.comment_id
+                  {deleteComment === comment.comment_id
                     ? "Deleting..."
                     : "Delete"}
                 </button>
