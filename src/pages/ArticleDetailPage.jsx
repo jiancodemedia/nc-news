@@ -102,7 +102,7 @@ function ArticleDetailPage() {
         );
       })
       .catch((error) => {
-        console.error("Error deleting", error);
+        console.log( error);
         setError("Fail to delete");
       })
       .finally(() => {
@@ -112,7 +112,7 @@ function ArticleDetailPage() {
 
   if (articleLoading) return <h1>Loading...</h1>;
   if (!article) return <h1>Article not found</h1>;
-  if (error) return <h1>{Error}</h1>;
+  if (error) return <h1>{error}</h1>;
 
   return (
     <div className="article-detail">
@@ -159,9 +159,8 @@ function ArticleDetailPage() {
           comments.map((comment) => (
             <div key={comment.comment_id} className="comment">
               <CommentBox comment={comment} />
-              
               {comment.author === currentUser && (
-                <button onClick={handleDeleteComment(comment.comment_id)}>
+                <button onClick={() => handleDeleteComment(comment.comment_id)}>
                   {deleteComment === comment.comment_id
                     ? "Deleting..."
                     : "Delete"}
