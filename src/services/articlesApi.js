@@ -35,3 +35,6 @@ export function postCommentToArticle(articleId, comment) {
     username,
   });
 }
+export function deleteCommentById ( commentId) {
+  return baseApi.delete(`/comments/${commentId}`)
+}
