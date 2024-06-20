@@ -56,7 +56,11 @@ function ArticleDetailPage() {
   function handleVote(change) {
     const updatedVotes = votes + change;
     setVotes(updatedVotes);
-    patchArticleVotes(articleId, change);
+    patchArticleVotes(articleId, change)
+    .catch((error) => {
+        console.error("Error updating votes", error);
+        setVotes(votes)
+      })
   }
 
   function handleCommentChange(event) {
@@ -155,8 +159,9 @@ function ArticleDetailPage() {
           comments.map((comment) => (
             <div key={comment.comment_id} className="comment">
               <CommentBox comment={comment} />
-              {comment.user_id === currentUser && (
-                <button onClick={() => handleDeleteComment(comment.comment_id)}>
+              
+              {comment.author === currentUser && (
+                <button onClick={handleDeleteComment(comment.comment_id)}>
                   {deleteComment === comment.comment_id
                     ? "Deleting..."
                     : "Delete"}
