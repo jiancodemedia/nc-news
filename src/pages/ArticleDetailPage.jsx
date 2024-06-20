@@ -6,7 +6,8 @@ import {
   getArticlesById,
   getCommentsByArticleId,
   postCommentToArticle,
-  patchArticleVotes
+  patchArticleVotes,
+  deleteCommentById,
 } from "../services/articlesApi";
 
 function ArticleDetailPage() {
@@ -18,6 +19,9 @@ function ArticleDetailPage() {
   const [newComment, setNewComment] = useState("");
   const [postingComment, setPostingComment] = useState(false);
   const [commentsLoading, setCommentsLoading] = useState(false);
+  const [deleteComment, setDeleteComment] = useState(null);
+  const [error, setError] = useState(null);
+  const currentUser = "tickle122";
 
   useEffect(() => {
     setArticleLoading(true);
@@ -28,6 +32,10 @@ function ArticleDetailPage() {
         setArticle(response.data.article);
         setVotes(response.data.article.votes);
       })
+      .catch((error) => {
+        console.error("No article found", error);
+        setError("Fail to load");
+      })
       .finally(() => {
         setArticleLoading(false);
       });
@@ -35,6 +43,10 @@ function ArticleDetailPage() {
     getCommentsByArticleId(articleId)
       .then((response) => {
         setComments(response.data.comments);
+      })
+      .catch((error) => {
+        console.error("No comments found", error);
+        setError("Fail to load");
       })
       .finally(() => {
         setCommentsLoading(false);
@@ -65,16 +77,38 @@ function ArticleDetailPage() {
     postCommentToArticle(articleId, comment)
       .then((response) => {
         setComments((prevComments) => [response.data.comment, ...prevComments]);
-
         setNewComment("");
+      })
+      .catch((error) => {
+        console.error("Error posting comment", error);
+        setError("Fail to post");
       })
       .finally(() => {
         setPostingComment(false);
       });
   }
 
+  function handleDeleteComment(commentId) {
+    setDeleteComment(commentId);
+
+    deleteCommentById(articleId, commentId)
+      .then(() => {
+        setComments((prevComments) =>
+          prevComments.filter((comment) => comment.comment_id !== commentId)
+        );
+      })
+      .catch((error) => {
+        console.error("Error deleting", error);
+        setError("Fail to delete");
+      })
+      .finally(() => {
+        setDeleteComment(null);
+      });
+  }
+
   if (articleLoading) return <h1>Loading...</h1>;
   if (!article) return <h1>Article not found</h1>;
+  if (error) return <h1>{Error}</h1>;
 
   return (
     <div className="article-detail">
@@ -119,7 +153,16 @@ function ArticleDetailPage() {
           <p>Loading comments...</p>
         ) : comments.length > 0 ? (
           comments.map((comment) => (
-            <CommentBox key={comment.comment_id} comment={comment} />
+            <div key={comment.comment_id} className="comment">
+              <CommentBox comment={comment} />
+              {comment.user_id === currentUser && (
+                <button onClick={() => handleDeleteComment(comment.comment_id)}>
+                  {deleteCommentById === comment.comment_id
+                    ? "Deleting..."
+                    : "Delete"}
+                </button>
+              )}
+            </div>
           ))
         ) : (
           <p>No comments</p>
