@@ -3,11 +3,13 @@
     flex-flow: column;
     height: 100%;
     row-gap: 5px;
-  
-    .list {
-      overflow: auto;
-      display: grid;
-    }
+    align-items: center;
+    overflow: auto;
+      
+}
+    
+      
+    
   
   
     table {
@@ -27,4 +29,3 @@
     img {
       width: 50px;
     }
-  }

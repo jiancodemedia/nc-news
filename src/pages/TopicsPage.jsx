@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getTopics } from "../services/articlesApi";
+import "./TopicsPage.css"
 
 function TopicsPage() {
   
@@ -14,15 +15,21 @@ useEffect(() => {
 }, [])
 
   return (
-    <div>
-      <h1>Topics</h1>
-      <ul>
+    <div className="topics-page">
+      <h1 className="topic-header">Topics</h1>
+      <div className="topics-list" >
         {topics.map((topic) => (
-          <li>
-            <Link to={`/topics/${topic.slug}`}>{topic.slug}</Link>
-          </li>
+          <ul>
+            
+              <Link key={topic.slug} to={`/topics/${topic.slug}`} className="topic-button">
+              {topic.slug}
+              </Link>
+            
+          </ul>
+            
+    
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

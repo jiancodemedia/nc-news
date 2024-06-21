@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getArticles } from "../services/articlesApi";
-import "./ArticleDetailPage.css"
+import "./TopicDetailPage.css"
 
 function TopicDetailPage() {
   const { topicSlug } = useParams();
