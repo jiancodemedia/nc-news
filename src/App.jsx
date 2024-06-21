@@ -10,6 +10,7 @@ import UsersPage from "./pages/UsersPage";
 import TopicsPage from "./pages/TopicsPage";
 import ArticlesPage from "./pages/ArticlesPage";
 import ArticleDetailPage from "./pages/ArticleDetailPage";
+//import TopicDetailPage from "./pages/TopicDetailPage"
 
 function Layout() {
   return (
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
       { path: "topics", element: <TopicsPage /> },
       { path: "articles", element: <ArticlesPage /> },
       { path: 'articles/:articleId', element: <ArticleDetailPage/>},
+      //{ path: 'topics/:topicSlug', element: <TopicDetailPage/>}
     ],
   },
 ]);
