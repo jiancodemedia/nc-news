@@ -38,14 +38,15 @@ const handleSortOrder = (event) => {
 
   function sortArticles(articles) {
     return [...articles].sort((a, b) => {
+      console.log(a)
       if (sortBy === "date") {
         return sortOrder === "asc"
-          ? new Date(a.date) - new Date(b.date)
-          : new Date(b.date) - new Date(a.date);
+          ? new Date(a.created_at) - new Date(b.created_at)
+          : new Date(b.created_at) - new Date(a.created_at);
       } else if (sortBy === "comments") {
         return sortOrder === "asc"
-          ? a.comments - b.comments
-          : b.comments - a.comments;
+          ? a.comment_count - b.comment_count
+          : b.comment_count - a.comment_count;
       } else if (sortBy === "votes") {
         return sortOrder === "asc" ? a.votes - b.votes : b.votes - a.votes;
       }
