@@ -8,6 +8,8 @@ function ArticlesPage() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("");
+  const [sortBy, setSortBy] = useState("date");
+  const [sortOrder, setSoftOrder] = useState("asc");
 
   const onClick = (event) => {
     setFilter(search);
@@ -18,6 +20,14 @@ function ArticlesPage() {
     setSearch(event.currentTarget.value);
   };
 
+  const handleSortBy = (event) => {
+    setSortBy(event.target.value)
+  }
+
+const handleSortOrder = (event) => {
+  setSoftOrder(event.target.value)
+}
+
   useEffect(() => {
     setLoading(true);
     getArticles().then((response) => {
@@ -25,6 +35,23 @@ function ArticlesPage() {
       setLoading(false);
     });
   }, []);
+
+  function sortArticles(articles) {
+    return [...articles].sort((a, b) => {
+      if (sortBy === "date") {
+        return sortOrder === "asc"
+          ? new Date(a.date) - new Date(b.date)
+          : new Date(b.date) - new Date(a.date);
+      } else if (sortBy === "comments") {
+        return sortOrder === "asc"
+          ? a.comments - b.comments
+          : b.comments - a.comments;
+      } else if (sortBy === "votes") {
+        return sortOrder === "asc" ? a.votes - b.votes : b.votes - a.votes;
+      }
+      return 0;
+    });
+  }
 
   if (loading) return <h1>Loading...</h1>;
 
@@ -35,8 +62,20 @@ function ArticlesPage() {
           <input type="text" id="search" value={search} onChange={onChange} />
           <button type="submit">Search</button>
         </form>
+        <div className="sortControls">
+          <select value={sortBy} onChange={handleSortBy}>
+            <option value='date'>Date</option>
+            <option value='comments'>Comment count</option>
+            <option value='votes'>Votes</option>
+          </select>
+          <select value={sortOrder} onChange={handleSortOrder}>
+          <option value='asc'>Ascending</option>
+          <option value='desc'>Descending</option>
+          </select>
       </div>
-      <div className="list">
+       </div>
+
+       <div className="list">
         <table>
           <thead>
             <tr>
@@ -44,9 +83,9 @@ function ArticlesPage() {
               <th>Image</th>
             </tr>
           </thead>
-          <Articles articles={articles} filter={filter} />
+          <Articles articles={sortArticles(articles)} filter={filter} />
         </table>
-      </div>
+       </div>
     </div>
   );
 }
