@@ -56,11 +56,10 @@ function ArticleDetailPage() {
   function handleVote(change) {
     const updatedVotes = votes + change;
     setVotes(updatedVotes);
-    patchArticleVotes(articleId, change)
-    .catch(() => {
-        
-        setVotes(votes)
-      })
+
+    patchArticleVotes(articleId, change).catch(() => {
+      setVotes(votes);
+    });
   }
 
   function handleCommentChange(event) {
@@ -73,7 +72,7 @@ function ArticleDetailPage() {
     const comment = newComment.trim();
 
     if (!comment) {
-        alert('Cannot post empty comment')
+      alert("Cannot post empty comment");
       return;
     }
 
@@ -94,18 +93,17 @@ function ArticleDetailPage() {
   }
 
   function handleDeleteComment(commentId) {
-    console.log(commentId)
+    console.log(commentId);
     setDeleteComment(commentId);
 
-    deleteCommentById( commentId)
+    deleteCommentById(commentId)
       .then(() => {
         setComments((prevComments) =>
           prevComments.filter((comment) => comment.comment_id !== commentId)
         );
       })
       .catch((error) => {
-        console.log( error);
-    
+        console.log(error);
       })
       .finally(() => {
         setDeleteComment(null);
