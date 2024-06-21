@@ -1,0 +1,17 @@
+table {
+    border-collapse: collapse;
+    width: 80%;
+    text-align-last: center;
+    justify-self: center;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  img {
+    width: 50px;
+  }
